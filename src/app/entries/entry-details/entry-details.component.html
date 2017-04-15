@@ -1,0 +1,28 @@
+<div *ngIf="entry" class="row">
+    <div class="col-md-12">
+        <h2 *ngIf="entry._id">Entry Details</h2>
+        <h2 *ngIf="!entry._id">New Entry</h2>
+    </div>
+</div>
+<div *ngIf="entry" class="row">
+    <form class="col-md-12">
+        <div class="form-group">
+            <label for="entry-name">Style</label>
+            <input class="form-control" name="entry-style" [(ngModel)]="entry.style" placeholder="Style" />
+        </div>
+        <div class="form-group">
+            <label for="entry-brewer">Brewer</label>
+            <input class="form-control" name="entry-brewer" [(ngModel)]="entry.brewer" placeholder="Brewer" />
+        </div>
+        <div class="form-group">
+            <label for="entry.context">Contest</label>
+            <select class="form-control" name="entry.contest" [(ngModel)]="entry.contest">
+          <option value="style">Style</option>
+          <option value="peoples">Peoples Choice</option>
+      </select>
+        </div>
+        <button class="btn btn-primary" *ngIf="!entry._id" (click)="createCEntry(entry)">Create</button>
+        <button class="btn btn-info" *ngIf="entry._id" (click)="updateContact(entry)">Update</button>
+        <button class="btn btn-danger" *ngIf="entry._id" (click)="deleteContact(entry._id)">Delete</button>
+    </form>
+</div>
