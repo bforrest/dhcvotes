@@ -14,8 +14,10 @@ import { PeoplesVoteComponent } from './peoples/peoples-vote/peoples-vote.compon
 const appRoutes: Routes = [
   { path: 'entries', component: EntryListComponent },
   { path: 'styles', component: StyleVoteComponent },
+  { path: 'styles/results', component: StyleResultsComponent},
   { path: 'peoples', component: PeoplesVoteComponent},
-   { path: '',   redirectTo: '/entries', pathMatch: 'full' },
+  { path: 'peoples/results', component: PeoplesResultsComponent},
+  { path: '',   redirectTo: 'entries', pathMatch: 'full' },
 ];
 
 @NgModule({
