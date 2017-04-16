@@ -1,12 +1,13 @@
 var express = require("express");
 var cookieParser = require('cookie-parser')
+var cookie = require('cookie');
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
 
 var ObjectID = mongodb.ObjectID;
 
 var ENTRIES_COLLECTION = 'entries';
-var VOTES_COLLECTION = 'votes;';
+var VOTES_COLLECTION = 'votes';
 var STYLE_COOKIE = 'dhcStyle';
 var PEOPLES_COOKIE = 'dhcPeoples';
 
@@ -53,8 +54,15 @@ app.get('/api/peoples', function(req, res) {
 })
 app.post('/api/peoples', function(req, res) {
     var vote = req.body;
-    var cookie = req.cookies.PEOPLES_COOKIE;
-    if (cookie === undefined) {
+
+    if (!req.body.entry) {
+        handleError(res, "Invalid user input", "It doesn't look like you've selected your favorite", 400);
+    }
+
+    var cookies = cookie.parse(req.headers.cookie || '');
+    var token = cookies.dhcStyle;
+
+    if (token === undefined) {
         var doc = castVote(vote, res);
         writeCookie(PEOPLES_COOKIE, res, vote);
         res.status(200).json(doc);
@@ -68,28 +76,28 @@ app.get('/api/style', function(req, res) {
         if (err) {
             handleError(res, err.message, "Failed to get Peoples choice entries.");
         } else {
-            console.log(docs);
+            //console.log(docs);
             res.status(200).json(docs);
         }
     })
 })
 
 app.post('/api/style/', function(req, res) {
-    console.log(req);
     var vote = req.body;
 
-    var cookie = req.cookies.STYLE_COOKIE;
-    console.log(vote);
     if (!req.body.entry) {
         handleError(res, "Invalid user input", "It doesn't look like you've selected your favorite", 400);
     }
-    if (cookie === undefined) {
+
+    var cookies = cookie.parse(req.headers.cookie || '');
+    var token = cookies.dhcStyle;
+
+    if (token === undefined) {
         writeCookie(STYLE_COOKIE, res, vote);
         var doc = castVote(vote, res);
-
-        res.status(200).json(doc);
+        res.status(201).json(vote);
     } else {
-        res.status(code || 429).json({ 'error': 'already voted' });
+        res.status(429).json({ 'error': 'already voted' });
     }
 })
 
@@ -98,7 +106,6 @@ let castVote = function(vote, res) {
         if (err) {
             handleError(res, err.message, "Failed to cast a vote.");
         }
-        console.log('db call was made');
         return doc;
     });
 }
@@ -108,12 +115,12 @@ let writeCookie = function(name, res, vote) {
 }
 
 app.get('/api/entries', function(req, res) {
-    console.log(req);
+    //console.log(req);
     db.collection(ENTRIES_COLLECTION).find({}).toArray(function(err, docs) {
         if (err) {
             handleError(res, err.message, "Failed to get entries.");
         } else {
-            console.log(docs);
+            //console.log(docs);
             res.status(200).json(docs);
         }
     })

@@ -34,7 +34,6 @@ export class StyleVoteComponent implements OnInit {
     const vote: Vote = {
       entry: this.selectedEntry,
     };
-
     this.styleService.vote(vote);
   }
 }
