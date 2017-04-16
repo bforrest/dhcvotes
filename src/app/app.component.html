@@ -2,5 +2,12 @@
     {{title}}
 </h1>
 <div class="container">
-    <entry-list></entry-list>
+    <router-outlet></router-outlet>
 </div>
+<footer class="footer">
+    <div class="container">
+        <a routerLink='/entries' routerLinkActive='active'>Entries</a>
+        <a routerLink="/styles" routerLinkActive="active">Style Vote</a>
+        <a routerLink="/peoples" routerLinkActive="active">Peoples Choice Vote</a>
+    </div>
+</footer>

@@ -1,15 +1,21 @@
 var express = require("express");
+var cookieParser = require('cookie-parser')
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
+
 var ObjectID = mongodb.ObjectID;
 
-var ENTRIES_COLLECTION = "entries";
+var ENTRIES_COLLECTION = 'entries';
+var VOTES_COLLECTION = 'votes;';
+var STYLE_COOKIE = 'dhcStyle';
+var PEOPLES_COOKIE = 'dhcPeoples';
 
 var app = express();
 app.use(bodyParser.json());
 
 // Create link to Angular build directory
 var distDir = __dirname + "/dist/";
+app.use(cookieParser());
 app.use(express.static(distDir));
 
 var db;
@@ -45,27 +51,64 @@ app.get('/api/peoples', function(req, res) {
         }
     })
 })
+app.post('/api/peoples', function(req, res) {
+    var vote = req.body;
+    var cookie = req.cookies.PEOPLES_COOKIE;
+    if (cookie === undefined) {
+        var doc = castVote(vote, res);
+        writeCookie(PEOPLES_COOKIE, res, vote);
+        res.status(200).json(doc);
+    } else {
+        res.status(code || 429).json({ 'error': 'already voted' });
+    }
+})
 
 app.get('/api/style', function(req, res) {
-        db.collection(ENTRIES_COLLECTION).find({ 'contest': 'style' }).toArray(function(err, docs) {
-            if (err) {
-                handleError(res, err.message, "Failed to get Peoples choice entries.");
-            } else {
-                console.log(docs);
-                res.status(200).json(docs);
-            }
-        })
+    db.collection(ENTRIES_COLLECTION).find({ 'contest': 'style' }).toArray(function(err, docs) {
+        if (err) {
+            handleError(res, err.message, "Failed to get Peoples choice entries.");
+        } else {
+            console.log(docs);
+            res.status(200).json(docs);
+        }
     })
-    /*
-    /* a contest entry
-    {
-      'contest': 'style|peoples',
-      'style': 'yadda',
-      'brewer': 'who done it'
+})
+
+app.post('/api/style/', function(req, res) {
+    console.log(req);
+    var vote = req.body;
+
+    var cookie = req.cookies.STYLE_COOKIE;
+    console.log(vote);
+    if (!req.body.entry) {
+        handleError(res, "Invalid user input", "It doesn't look like you've selected your favorite", 400);
     }
-    */
+    if (cookie === undefined) {
+        writeCookie(STYLE_COOKIE, res, vote);
+        var doc = castVote(vote, res);
+
+        res.status(200).json(doc);
+    } else {
+        res.status(code || 429).json({ 'error': 'already voted' });
+    }
+})
+
+let castVote = function(vote, res) {
+    db.collection(VOTES_COLLECTION).insertOne(vote, function(err, doc) {
+        if (err) {
+            handleError(res, err.message, "Failed to cast a vote.");
+        }
+        console.log('db call was made');
+        return doc;
+    });
+}
+
+let writeCookie = function(name, res, vote) {
+    res.cookie(name, vote, { maxAge: 90000000, httpOnly: true });
+}
 
 app.get('/api/entries', function(req, res) {
+    console.log(req);
     db.collection(ENTRIES_COLLECTION).find({}).toArray(function(err, docs) {
         if (err) {
             handleError(res, err.message, "Failed to get entries.");

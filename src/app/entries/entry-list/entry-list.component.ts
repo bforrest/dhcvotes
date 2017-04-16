@@ -19,7 +19,7 @@ export class EntryListComponent implements OnInit {
   ngOnInit() {
     this.entryService
       .getEntries()
-      .then((entries: Entry[])=> {
+      .then((entries: Entry[]) => {
         this.entries = entries.map((entry) => {
           return entry;
         });
