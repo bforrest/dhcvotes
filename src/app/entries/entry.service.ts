@@ -24,16 +24,16 @@ export class EntryService {
       .catch(this.handleError);
   }
 
-  deleteEntry(entry: Entry): Promise<Entry> {
-    return this.http.delete(this.entryUrl + '/' + entry._id)
+  deleteEntry(entry: String): Promise<String> {
+    return this.http.delete(this.entryUrl + '/' + entry)
       .toPromise()
-      .then(response => response.json() as Entry)
+      .then(response => response.json() as String)
       .catch(this.handleError);
   }
 
   updateEntry(entry: Entry): Promise<Entry> {
     const putUrl = this.entryUrl + '/' + entry._id;
-    return this.http.put(putUrl, entry)
+    return this.http.post(putUrl, entry)
       .toPromise()
       .then(response => response.json() as Entry)
       .catch(this.handleError);

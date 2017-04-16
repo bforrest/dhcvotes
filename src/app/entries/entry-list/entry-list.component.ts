@@ -20,7 +20,7 @@ export class EntryListComponent implements OnInit {
     this.entryService
       .getEntries()
       .then((entries: Entry[])=> {
-        this.entries = entries.map((entry)=> {
+        this.entries = entries.map((entry) => {
           return entry;
         });
       });
@@ -36,7 +36,7 @@ export class EntryListComponent implements OnInit {
     this.selectedEntry = entry;
   }
 
-  createNewEntry(){
+  createNewEntry() {
     const entry: Entry = {
       contest: '',
       style: '',

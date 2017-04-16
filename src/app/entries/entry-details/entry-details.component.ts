@@ -10,11 +10,11 @@ import { EntryService } from '../entry.service';
 })
 export class EntryDetailsComponent{
 
+  @Input() entry: Entry;
+
   @Input() createHandler: Function;
 
   @Input() deleteHandler: Function;
-
-  @Input() entry: Entry;
 
   @Input() updateHandler: Function;
 
@@ -22,7 +22,7 @@ export class EntryDetailsComponent{
 
   createEntry(entry: Entry){
     this.entryService.createEntry(entry)
-      .then((newEntry: Entry)=> {
+      .then((newEntry: Entry) => {
         this.createHandler(newEntry);
       });
   }
@@ -33,9 +33,9 @@ export class EntryDetailsComponent{
     });
   }
 
-  deleteEntry(entry: Entry): void {
-    this.entryService.deleteEntry(entry).then((deletedEntry: Entry) => {
-      this.deleteHandler(deletedEntry._id);
+  deleteEntry(entry: String): void {
+    this.entryService.deleteEntry(entry).then((deletedEntry: String) => {
+      this.deleteHandler(deletedEntry);
     });
   }
 }

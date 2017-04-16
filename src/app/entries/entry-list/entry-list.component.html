@@ -2,7 +2,7 @@
     <div class="col-md-5">
         <h2>Entries</h2>
         <ul class="list-group">
-            <li class="list-group-item" *ngFor="let entry of entries" (click)="selectEntr(entry)" [class.active]="entry === selectedEntry">
+            <li class="list-group-item" *ngFor="let entry of entries" (click)="selectEntry(entry)" [class.active]="entry === selectedEntry">
                 {{entry.style}}
             </li>
         </ul>

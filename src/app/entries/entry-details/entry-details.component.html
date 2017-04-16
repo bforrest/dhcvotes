@@ -21,8 +21,8 @@
           <option value="peoples">Peoples Choice</option>
       </select>
         </div>
-        <button class="btn btn-primary" *ngIf="!entry._id" (click)="createCEntry(entry)">Create</button>
-        <button class="btn btn-info" *ngIf="entry._id" (click)="updateContact(entry)">Update</button>
-        <button class="btn btn-danger" *ngIf="entry._id" (click)="deleteContact(entry._id)">Delete</button>
+        <button class="btn btn-primary" *ngIf="!entry._id" (click)="createEntry(entry)">Create</button>
+        <button class="btn btn-info" *ngIf="entry._id" (click)="updateEntry(entry)">Update</button>
+        <button class="btn btn-danger" *ngIf="entry._id" (click)="deleteEntry(entry._id)">Delete</button>
     </form>
 </div>

@@ -13,8 +13,7 @@ var distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
 var db;
-
-mongodb.MongoClient.connect(process.env.MONGDB_URI, function(err, databse) {
+mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, database) {
     if (err) {
         console.log(err);
         process.exit(1);
@@ -23,7 +22,7 @@ mongodb.MongoClient.connect(process.env.MONGDB_URI, function(err, databse) {
     db = database;
     console.log('Database connection ready');
 
-    var server = app.listen(process.enf.PORT || 8080, function() {
+    var server = app.listen(process.env.PORT || 8080, function() {
         var port = server.address().port;
         console.log('App now running on port', port);
     })
@@ -36,6 +35,7 @@ function handleError(res, reason, message, code) {
 }
 
 // api
+
 app.get('/api/peoples', function(req, res) {
     db.collection(ENTRIES_COLLECTION).find({ 'contest': 'peoples' }).toArray(function(err, docs) {
         if (err) {
@@ -47,23 +47,24 @@ app.get('/api/peoples', function(req, res) {
 })
 
 app.get('/api/style', function(req, res) {
-    db.collection(ENTRIES_COLLECTION).find({ 'contest': 'style' }).toArray(function(err, docs) {
-        if (err) {
-            handleError(res, err.message, "Failed to get Peoples choice entries.");
-        } else {
-            console.log(docs);
-            res.status(200).json(docs);
-        }
+        db.collection(ENTRIES_COLLECTION).find({ 'contest': 'style' }).toArray(function(err, docs) {
+            if (err) {
+                handleError(res, err.message, "Failed to get Peoples choice entries.");
+            } else {
+                console.log(docs);
+                res.status(200).json(docs);
+            }
+        })
     })
-})
+    /*
+    /* a contest entry
+    {
+      'contest': 'style|peoples',
+      'style': 'yadda',
+      'brewer': 'who done it'
+    }
+    */
 
-/* a contest entry
-{
-  'contest': 'style|peoples',
-  'style': 'yadda',
-  'brewer': 'who done it'
-}
-*/
 app.get('/api/entries', function(req, res) {
     db.collection(ENTRIES_COLLECTION).find({}).toArray(function(err, docs) {
         if (err) {
@@ -101,4 +102,32 @@ app.post('/api/entries', function(req, res) {
             res.status(201).json(doc.ops[0]);
         }
     });
+})
+
+app.post('/api/entries/:id', function(req, res) {
+    var entry = req.body;
+
+    if (!req.body.contest ||
+        !req.body.style ||
+        !req.body.brewer) {
+        handleError(res, "Invalid user input", "Must provide a contest, style and brewer.", 400);
+    }
+
+    db.collection(ENTRIES_COLLECTION).updateOne(entry, function(err, doc) {
+        if (err) {
+            handleError(res, err.message, "Failed to update entry.");
+        } else {
+            res.status(201).json(doc.ops[0]);
+        }
+    });
+})
+
+app.delete('/api/entries/:id', function(req, res) {
+    db.collection(ENTRIES_COLLECTION).deleteOne({ _id: new ObjectID(req.params.id) }, function(err, result) {
+        if (err) {
+            handleError(res, err.message, "Failed to delete entry");
+        } else {
+            res.status(200).json(req.params.id);
+        }
+    })
 })
