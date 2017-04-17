@@ -210,3 +210,8 @@ app.delete('/api/entries/:id', function(req, res) {
         }
     })
 })
+
+app.use(function(req, res) {
+    //res.status(404).send("Dave's not here man!");
+    res.sendFile(distDir + '/index.html');
+})
