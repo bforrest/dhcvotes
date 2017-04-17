@@ -84,8 +84,6 @@ app.get('/api/style/results', function(req, res) {
     })
 })
 
-// api
-
 app.get('/api/peoples', function(req, res) {
     db.collection(ENTRIES_COLLECTION).find({ 'contest': 'peoples' }).toArray(function(err, docs) {
         if (err) {
