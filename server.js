@@ -82,6 +82,19 @@ app.get('/api/style', function(req, res) {
     })
 })
 
+app.get('/api/style/results', function(req, res) {
+    db.collection(ENTRIES_COLLECTION).aggregate([
+        { $group: { _id: '$entry._id', entry: { $first: "$entry" }, vote_count: { $sum: 1 } } },
+        { $sort: { vote_count: -1 } }
+    ]).toArray(function(err, docs) {
+        if (err) {
+            handleError(res, err.message, "Failed to get Peoples choice entries.");
+        } else {
+            res.status(200).json(docs);
+        }
+    })
+})
+
 app.post('/api/style/', function(req, res) {
     var vote = req.body;
 
