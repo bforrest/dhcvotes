@@ -6,6 +6,7 @@
     width: 100%;
     height: 60px;
     background-color: #f5f5f5;
+    overflow: auto;
 }
 
 .footer>.container {
@@ -16,10 +17,7 @@
     margin-bottom: 10px;
 }
 
-form {
-    padding-bottom: 70px;
-}
-
 .row {
-    margin: auto;
+    overflow-y: scroll;
+    margin-bottom: 65px;
 }

@@ -1,3 +1,8 @@
 input[type="radio"] {
     margin-right: 10px;
 }
+
+.row {
+    overflow: auto;
+    margin-bottom: 65px;
+}
