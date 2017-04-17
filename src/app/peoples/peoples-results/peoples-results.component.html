@@ -1,7 +1,11 @@
 <h2>Peoples Choice Results</h2>
+<div class="row">
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let result of results">
 
-<ul class="list-group">
-    <li class="list-group-item" *ngFor="let result of results">
-        {{ result.entry.style}} = {{ result.entry.brewer }} = {{result.vote_count}}
-    </li>
-</ul>
+            <button class="btn btn-default" type="button">
+        {{ result.entry.style}} brewed by {{ result.entry.brewer }} with <span class="badge">{{result.vote_count}}</span> votes
+      </button>
+        </li>
+    </ul>
+</div>

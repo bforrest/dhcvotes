@@ -1,6 +1,10 @@
 <h2>Style Competion Results</h2>
-<ul class="list-group">
-    <li class="list-group-item" *ngFor="let result of results">
-        {{ result.entry.style}} = {{ result.entry.brewer }} = {{result.vote_count}}
-    </li>
-</ul>
+<div class="row">
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let result of results">
+            <button class="btn btn-default" type="button">
+        {{ result.entry.style}} brewed by {{ result.entry.brewer }} with <span class="badge">{{result.vote_count}}</span> votes
+      </button>
+        </li>
+    </ul>
+</div>
