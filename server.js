@@ -41,6 +41,50 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({ 'error': message });
 }
 
+
+app.get('/api/style', function(req, res) {
+    db.collection(ENTRIES_COLLECTION).find({ 'contest': 'style' }).toArray(function(err, docs) {
+        if (err) {
+            handleError(res, err.message, "Failed to get Peoples choice entries.");
+        } else {
+            res.status(200).json(docs);
+        }
+    })
+})
+
+app.post('/api/style/', function(req, res) {
+    var vote = req.body;
+
+    if (!req.body.entry) {
+        handleError(res, "Invalid user input", "It doesn't look like you've selected your favorite", 400);
+    }
+
+    var cookies = cookie.parse(req.headers.cookie || '');
+    var token = cookies.dhcStyle;
+
+    if (token === undefined) {
+        writeCookie(STYLE_COOKIE, res, vote);
+        var doc = castVote(vote, res);
+        res.status(201).json(vote);
+    } else {
+        res.status(429).json({ 'error': 'already voted' });
+    }
+})
+
+app.get('/api/style/results', function(req, res) {
+    db.collection(ENTRIES_COLLECTION).aggregate([
+        { $match: { 'entry.contest': 'style' } },
+        { $group: { _id: '$entry._id', entry: { $first: "$entry" }, vote_count: { $sum: 1 } } },
+        { $sort: { vote_count: -1 } }
+    ]).toArray(function(err, docs) {
+        if (err) {
+            handleError(res, err.message, "Failed to get Peoples choice entries.");
+        } else {
+            res.status(200).json(docs);
+        }
+    })
+})
+
 // api
 
 app.get('/api/peoples', function(req, res) {
@@ -71,19 +115,9 @@ app.post('/api/peoples', function(req, res) {
     }
 })
 
-app.get('/api/style', function(req, res) {
-    db.collection(ENTRIES_COLLECTION).find({ 'contest': 'style' }).toArray(function(err, docs) {
-        if (err) {
-            handleError(res, err.message, "Failed to get Peoples choice entries.");
-        } else {
-            //console.log(docs);
-            res.status(200).json(docs);
-        }
-    })
-})
-
 app.get('/api/style/results', function(req, res) {
     db.collection(ENTRIES_COLLECTION).aggregate([
+        { $match: { 'entry.contest': 'peoples' } },
         { $group: { _id: '$entry._id', entry: { $first: "$entry" }, vote_count: { $sum: 1 } } },
         { $sort: { vote_count: -1 } }
     ]).toArray(function(err, docs) {
@@ -93,25 +127,6 @@ app.get('/api/style/results', function(req, res) {
             res.status(200).json(docs);
         }
     })
-})
-
-app.post('/api/style/', function(req, res) {
-    var vote = req.body;
-
-    if (!req.body.entry) {
-        handleError(res, "Invalid user input", "It doesn't look like you've selected your favorite", 400);
-    }
-
-    var cookies = cookie.parse(req.headers.cookie || '');
-    var token = cookies.dhcStyle;
-
-    if (token === undefined) {
-        writeCookie(STYLE_COOKIE, res, vote);
-        var doc = castVote(vote, res);
-        res.status(201).json(vote);
-    } else {
-        res.status(429).json({ 'error': 'already voted' });
-    }
 })
 
 let castVote = function(vote, res) {
