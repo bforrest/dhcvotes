@@ -1,3 +1,8 @@
 <p>
-  style-results works!
+    style-results works!
 </p>
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let result of results">
+        {{ result.entry.style}} = {{ result.entry.brewer }} = {{result.vote_count}}
+    </li>
+</ul>

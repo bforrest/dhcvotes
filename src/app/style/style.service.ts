@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Vote } from '../vote';
+import { Result } from '../result';
 import { Entry } from '../entries/entry';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
@@ -23,6 +24,13 @@ export class StyleService {
       .toPromise()
       .then(response => response.json() as Vote)
       .catch(this.handleError);
+  }
+
+  results(): Promise<Result[]> {
+    return this.http.get(this.serviceUrl + '/results')
+      .toPromise()
+      .then( response => response.json() as Result[])
+      .catch( this.handleError);
   }
 
   private handleError (error: any) {

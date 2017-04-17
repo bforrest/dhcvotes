@@ -41,7 +41,6 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({ 'error': message });
 }
 
-
 app.get('/api/style', function(req, res) {
     db.collection(ENTRIES_COLLECTION).find({ 'contest': 'style' }).toArray(function(err, docs) {
         if (err) {
@@ -96,6 +95,7 @@ app.get('/api/peoples', function(req, res) {
         }
     })
 })
+
 app.post('/api/peoples', function(req, res) {
     var vote = req.body;
 
