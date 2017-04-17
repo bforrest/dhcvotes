@@ -9,6 +9,7 @@ import 'rxjs/add/operator/toPromise';
 export class StyleService {
 
   private serviceUrl = '/api/style';
+  private resultUrl = '/api/style/results';
 
   constructor(private http: Http) { }
 
@@ -27,7 +28,7 @@ export class StyleService {
   }
 
   results(): Promise<Result[]> {
-    return this.http.get(this.serviceUrl + '/results')
+    return this.http.get(this.resultUrl)
       .toPromise()
       .then( response => response.json() as Result[])
       .catch( this.handleError);

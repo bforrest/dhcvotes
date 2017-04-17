@@ -13,7 +13,6 @@ import { StyleService } from 'app/style/style.service';
 })
 export class StyleResultsComponent implements OnInit {
   results: Result[];
-  entries: Entry[];
 
   constructor(private styleService: StyleService) { }
 

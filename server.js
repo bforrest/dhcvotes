@@ -51,7 +51,7 @@ app.get('/api/style', function(req, res) {
     })
 })
 
-app.post('/api/style/', function(req, res) {
+app.post('/api/style', function(req, res) {
     var vote = req.body;
 
     if (!req.body.entry) {
@@ -71,7 +71,8 @@ app.post('/api/style/', function(req, res) {
 })
 
 app.get('/api/style/results', function(req, res) {
-    db.collection(ENTRIES_COLLECTION).aggregate([
+    console.log('getting style results');
+    db.collection(VOTES_COLLECTION).aggregate([
         { $match: { 'entry.contest': 'style' } },
         { $group: { _id: '$entry._id', entry: { $first: "$entry" }, vote_count: { $sum: 1 } } },
         { $sort: { vote_count: -1 } }
@@ -79,6 +80,7 @@ app.get('/api/style/results', function(req, res) {
         if (err) {
             handleError(res, err.message, "Failed to get Peoples choice entries.");
         } else {
+            console.log(docs);
             res.status(200).json(docs);
         }
     })
@@ -102,7 +104,7 @@ app.post('/api/peoples', function(req, res) {
     }
 
     var cookies = cookie.parse(req.headers.cookie || '');
-    var token = cookies.dhcStyle;
+    var token = cookies.PEOPLES_COOKIE;
 
     if (token === undefined) {
         var doc = castVote(vote, res);
@@ -113,8 +115,8 @@ app.post('/api/peoples', function(req, res) {
     }
 })
 
-app.get('/api/style/results', function(req, res) {
-    db.collection(ENTRIES_COLLECTION).aggregate([
+app.get('/api/peoples/results', function(req, res) {
+    db.collection(VOTES_COLLECTION).aggregate([
         { $match: { 'entry.contest': 'peoples' } },
         { $group: { _id: '$entry._id', entry: { $first: "$entry" }, vote_count: { $sum: 1 } } },
         { $sort: { vote_count: -1 } }
@@ -122,6 +124,7 @@ app.get('/api/style/results', function(req, res) {
         if (err) {
             handleError(res, err.message, "Failed to get Peoples choice entries.");
         } else {
+            console.log(docs);
             res.status(200).json(docs);
         }
     })

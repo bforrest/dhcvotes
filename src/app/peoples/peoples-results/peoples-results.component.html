@@ -1,3 +1,7 @@
-<p>
-  peoples-results works!
-</p>
+<h2>Peoples Choice Results</h2>
+
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let result of results">
+        {{ result.entry.style}} = {{ result.entry.brewer }} = {{result.vote_count}}
+    </li>
+</ul>
