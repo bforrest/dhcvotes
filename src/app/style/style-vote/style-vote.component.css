@@ -6,3 +6,20 @@ input[type="radio"] {
     overflow: auto;
     margin-bottom: 65px;
 }
+
+.msg {
+    color: white;
+    font-size: 150%;
+    position: absolute;
+    /*opacity: 0.3;*/
+    left: 2px;
+    top: 3em;
+    width: 98%;
+    background-color: green;
+    text-align: center;
+}
+
+.msg.canceled {
+    color: white;
+    background-color: red;
+}

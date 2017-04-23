@@ -24,19 +24,28 @@ export class StyleService {
     return this.http.post(this.serviceUrl, vote)
       .toPromise()
       .then(response => response.json() as Vote)
-      .catch(this.handleError);
+      .catch(
+        response => {
+          if ( response.status === 429) {
+            vote.errorMessage = 'You have already voted tonight';
+            return vote;
+          } else {
+            this.handleError(response);
+          };
+        });
   }
 
   results(): Promise<Result[]> {
     return this.http.get(this.resultUrl)
       .toPromise()
       .then( response => response.json() as Result[])
-      .catch( this.handleError);
+      .catch( this.handleError );
   }
 
   private handleError (error: any) {
     const errMsg = (error.message) ? error.message :
     error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg); // log to console instead
+    return error;
   }
 }

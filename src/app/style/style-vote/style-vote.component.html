@@ -1,4 +1,6 @@
 <div class="row">
+
+    <div *ngIf='vote && vote.errorMessage' class="msg" [class.canceled]="vote.errorMessage">{{vote.errorMessage}}</div>
     <div class="col-md-5">
         <h2>Style Competition Entries</h2>
         <form class="col-md-12">

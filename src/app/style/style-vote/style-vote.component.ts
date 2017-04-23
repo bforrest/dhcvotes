@@ -14,6 +14,7 @@ export class StyleVoteComponent implements OnInit {
 
   entries: Entry[];
   selectedEntry: Entry;
+  vote: Vote;
 
   constructor(private styleService: StyleService) { }
 
@@ -34,6 +35,12 @@ export class StyleVoteComponent implements OnInit {
     const vote: Vote = {
       entry: this.selectedEntry,
     };
-    this.styleService.vote(vote);
+    this.vote = vote;
+
+    this.styleService.vote(vote)
+    .catch( response => {
+      console.log(response);
+    });
+
   }
 }
