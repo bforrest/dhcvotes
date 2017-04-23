@@ -41,6 +41,10 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({ 'error': message });
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e397357a664e4cc585b66bee007c3de6352fbb1e
 app.get('/api/style', function(req, res) {
     db.collection(ENTRIES_COLLECTION).find({ 'contest': 'style' }).toArray(function(err, docs) {
         if (err) {
@@ -51,7 +55,11 @@ app.get('/api/style', function(req, res) {
     })
 })
 
+<<<<<<< HEAD
 app.post('/api/style', function(req, res) {
+=======
+app.post('/api/style/', function(req, res) {
+>>>>>>> e397357a664e4cc585b66bee007c3de6352fbb1e
     var vote = req.body;
 
     if (!req.body.entry) {
@@ -71,12 +79,17 @@ app.post('/api/style', function(req, res) {
 })
 
 app.get('/api/style/results', function(req, res) {
+<<<<<<< HEAD
     console.log('getting style results');
     db.collection(VOTES_COLLECTION).aggregate([
+=======
+    db.collection(ENTRIES_COLLECTION).aggregate([
+>>>>>>> e397357a664e4cc585b66bee007c3de6352fbb1e
         { $match: { 'entry.contest': 'style' } },
         { $group: { _id: '$entry._id', entry: { $first: "$entry" }, vote_count: { $sum: 1 } } },
         { $sort: { vote_count: -1 } }
     ]).toArray(function(err, docs) {
+<<<<<<< HEAD
         if (err) {
             handleError(res, err.message, "Failed to get Peoples choice entries.");
         } else {
@@ -88,6 +101,8 @@ app.get('/api/style/results', function(req, res) {
 
 app.get('/api/peoples', function(req, res) {
     db.collection(ENTRIES_COLLECTION).find({ 'contest': 'peoples' }).toArray(function(err, docs) {
+=======
+>>>>>>> e397357a664e4cc585b66bee007c3de6352fbb1e
         if (err) {
             handleError(res, err.message, "Failed to get Peoples choice entries.");
         } else {
@@ -96,6 +111,20 @@ app.get('/api/peoples', function(req, res) {
     })
 })
 
+<<<<<<< HEAD
+=======
+// api
+
+app.get('/api/peoples', function(req, res) {
+    db.collection(ENTRIES_COLLECTION).find({ 'contest': 'peoples' }).toArray(function(err, docs) {
+        if (err) {
+            handleError(res, err.message, "Failed to get Peoples choice entries.");
+        } else {
+            res.status(200).json(docs);
+        }
+    })
+})
+>>>>>>> e397357a664e4cc585b66bee007c3de6352fbb1e
 app.post('/api/peoples', function(req, res) {
     var vote = req.body;
 
@@ -115,8 +144,13 @@ app.post('/api/peoples', function(req, res) {
     }
 })
 
+<<<<<<< HEAD
 app.get('/api/peoples/results', function(req, res) {
     db.collection(VOTES_COLLECTION).aggregate([
+=======
+app.get('/api/style/results', function(req, res) {
+    db.collection(ENTRIES_COLLECTION).aggregate([
+>>>>>>> e397357a664e4cc585b66bee007c3de6352fbb1e
         { $match: { 'entry.contest': 'peoples' } },
         { $group: { _id: '$entry._id', entry: { $first: "$entry" }, vote_count: { $sum: 1 } } },
         { $sort: { vote_count: -1 } }
@@ -124,7 +158,10 @@ app.get('/api/peoples/results', function(req, res) {
         if (err) {
             handleError(res, err.message, "Failed to get Peoples choice entries.");
         } else {
+<<<<<<< HEAD
             console.log(docs);
+=======
+>>>>>>> e397357a664e4cc585b66bee007c3de6352fbb1e
             res.status(200).json(docs);
         }
     })
