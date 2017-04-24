@@ -58,15 +58,14 @@ app.post('/api/style', function(req, res) {
         handleError(res, "Invalid user input", "It doesn't look like you've selected your favorite", 400);
     }
 
-    var cookies = cookie.parse(req.headers.cookie || '');
-    var token = cookies.dhcStyle;
+    var token = checkCookie(STYLE_COOKIE, req);
 
     if (token === undefined) {
         writeCookie(STYLE_COOKIE, res, vote);
         var doc = castVote(vote, res);
         res.status(201).json(vote);
     } else {
-        res.status(429).json({ 'error': 'already voted' });
+        res.status(429).json({ 'error': 'You have already voted.' });
     }
 })
 
@@ -86,6 +85,7 @@ app.get('/api/style/results', function(req, res) {
     })
 })
 
+
 app.get('/api/peoples', function(req, res) {
     db.collection(ENTRIES_COLLECTION).find({ 'contest': 'peoples' }).toArray(function(err, docs) {
         if (err) {
@@ -103,15 +103,14 @@ app.post('/api/peoples', function(req, res) {
         handleError(res, "Invalid user input", "It doesn't look like you've selected your favorite", 400);
     }
 
-    var cookies = cookie.parse(req.headers.cookie || '');
-    var token = cookies.PEOPLES_COOKIE;
+    var token = checkCookie(PEOPLES_COOKIE, req);
 
     if (token === undefined) {
         var doc = castVote(vote, res);
         writeCookie(PEOPLES_COOKIE, res, vote);
         res.status(200).json(doc);
     } else {
-        res.status(code || 429).json({ 'error': 'already voted' });
+        res.status(429).json({ 'error': 'You have already voted.' });
     }
 })
 
@@ -141,6 +140,18 @@ let castVote = function(vote, res) {
 
 let writeCookie = function(name, res, vote) {
     res.cookie(name, vote, { maxAge: 90000000, httpOnly: true });
+}
+
+let checkCookie = function(contest, req) {
+    var cookies = cookie.parse(req.headers.cookie || '');
+    var token = cookies.dhcStyle;
+    if (token) {
+        //`string text ${expression} string text`
+        console.log(`req.headers.cookie: ${req.headers.cookie}`);
+        console.log(`Cookie for: ${contest} ====`);
+        console.log(token);
+        return token;
+    }
 }
 
 app.get('/api/entries', function(req, res) {

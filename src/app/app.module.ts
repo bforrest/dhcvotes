@@ -10,7 +10,7 @@ import { StyleVoteComponent } from './style/style-vote/style-vote.component';
 import { StyleResultsComponent } from './style/style-results/style-results.component';
 import { PeoplesResultsComponent } from './peoples/peoples-results/peoples-results.component';
 import { PeoplesVoteComponent } from './peoples/peoples-vote/peoples-vote.component';
-import { NovoteComponent } from './novote/novote/novote.component';
+import { NovoteComponent } from './novote/novote.component';
 
 const appRoutes: Routes = [
   { path: 'entries', component: EntryListComponent },
