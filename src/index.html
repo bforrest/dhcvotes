@@ -19,7 +19,8 @@
             FB.init({
                 appId: '426670954366965',
                 xfbml: true,
-                version: 'v2.9'
+                version: 'v2.9',
+                status: true
             });
             FB.AppEvents.logPageView();
 
@@ -27,7 +28,16 @@
                 if (response.status === 'connected') {
                     console.log('Logged in.');
                 } else {
-                    FB.login();
+                    FB.login(function(response) {
+                        if (response.authResponse) {
+                            console.log('Welcome!  Fetching your information.... ');
+                            FB.api('/me', function(response) {
+                                console.log('Good to see you, ' + response.name + '.');
+                            });
+                        } else {
+                            console.log('User cancelled login or did not fully authorize.');
+                        }
+                    });
                 }
             });
         };
