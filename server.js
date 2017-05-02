@@ -106,9 +106,9 @@ app.post('/api/peoples', function(req, res) {
     var token = checkCookie(PEOPLES_COOKIE, req);
 
     if (token === undefined) {
-        var doc = castVote(vote, res);
         writeCookie(PEOPLES_COOKIE, res, vote);
-        res.status(200).json(doc);
+        var doc = castVote(vote, res);
+        res.status(201).json(doc);
     } else {
         res.status(429).json({ 'error': 'You have already voted.' });
     }
@@ -137,22 +137,39 @@ let castVote = function(vote, res) {
         return doc;
     });
 }
+let when = function() {
+    //"01/05/2017"
+    var when = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
+    return when;
+}
 
 let writeCookie = function(name, res, vote) {
+    vote.when = when();
     res.cookie(name, vote, { maxAge: 90000000, httpOnly: true });
 }
 
 let checkCookie = function(contest, req) {
     var cookies = cookie.parse(req.headers.cookie || '');
-    var token = cookies.dhcStyle;
+    console.log(`Cookie for: ${contest} ====`);
+
+    var token = contest === STYLE_COOKIE ? cookies[STYLE_COOKIE] : cookies[PEOPLES_COOKIE];
+
+
     if (token) {
         //`string text ${expression} string text`
         console.log(`req.headers.cookie: ${req.headers.cookie}`);
-        console.log(`Cookie for: ${contest} ====`);
-        console.log(token);
-        return token;
+
+        console.log(`token: ${token}`);
+        if (token.when !== when()) return null;
     }
+    // if (token) {
+    //     //`string text ${expression} string text`
+    //     console.log(`req.headers.cookie: ${req.headers.cookie}`);
+    //     console.log(`Cookie for: ${contest} ====`);
+    //     console.log(token);
+    return token;
 }
+
 
 app.get('/api/entries', function(req, res) {
     //console.log(req);

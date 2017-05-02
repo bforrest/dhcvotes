@@ -31,8 +31,10 @@ export class StyleVoteComponent implements OnInit {
   }
 
   castVote() {
+    const date = new Date().toJSON().slice(0, 10).split('-').reverse().join('/');
     const vote: Vote = {
       entry: this.selectedEntry,
+      when: date
     };
     this.styleService.vote(vote);
   }
