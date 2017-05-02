@@ -108,7 +108,7 @@ app.post('/api/peoples', function(req, res) {
     if (token === undefined) {
         writeCookie(PEOPLES_COOKIE, res, vote);
         var doc = castVote(vote, res);
-        res.status(201).json(doc);
+        res.status(201).json(vote);
     } else {
         res.status(429).json({ 'error': 'You have already voted.' });
     }
@@ -150,18 +150,20 @@ let writeCookie = function(name, res, vote) {
 
 let checkCookie = function(contest, req) {
     var cookies = cookie.parse(req.headers.cookie || '');
+
     console.log(`Cookie for: ${contest} ====`);
+    console.log(`req.headers.cookie: ${req.headers.cookie}`);
 
-    var token = contest === STYLE_COOKIE ? cookies[STYLE_COOKIE] : cookies[PEOPLES_COOKIE];
-
+    var token = contest === STYLE_COOKIE ? cookies.dhcStyle : cookies.dhcPeoples;
 
     if (token) {
         //`string text ${expression} string text`
-        console.log(`req.headers.cookie: ${req.headers.cookie}`);
-
         console.log(`token: ${token}`);
         if (token.when !== when()) return null;
+    } else {
+        console.log('token was null :-(');
     }
+
     // if (token) {
     //     //`string text ${expression} string text`
     //     console.log(`req.headers.cookie: ${req.headers.cookie}`);
