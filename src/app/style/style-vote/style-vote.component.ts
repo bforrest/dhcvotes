@@ -3,6 +3,7 @@ import { Entry } from '../../entries/entry';
 import { Vote } from '../../vote';
 
 import { StyleService } from 'app/style/style.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-style-vote',
@@ -10,12 +11,15 @@ import { StyleService } from 'app/style/style.service';
   styleUrls: ['./style-vote.component.css'],
   providers: [StyleService]
 })
+
+
 export class StyleVoteComponent implements OnInit {
 
   entries: Entry[];
   selectedEntry: Entry;
+  vote: Vote;
 
-  constructor(private styleService: StyleService) { }
+  constructor(private styleService: StyleService, private _flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
     this.styleService.get()
@@ -24,6 +28,7 @@ export class StyleVoteComponent implements OnInit {
           return entry;
         });
       }));
+      this._flashMessagesService.show('We are in about component!', { cssClass: 'alert-success', timeout: 1000 });
   }
 
   selectEntry(entry: Entry){
@@ -36,6 +41,8 @@ export class StyleVoteComponent implements OnInit {
       entry: this.selectedEntry,
       when: date
     };
+    this.vote = vote;
     this.styleService.vote(vote);
+    this._flashMessagesService.show(`You have voted for ${vote.entry.style}!`, { cssClass: 'alert-success'});
   }
 }

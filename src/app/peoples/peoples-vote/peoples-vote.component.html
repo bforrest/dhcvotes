@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-5" *ngIf="!vote">
         <h2>Peoples Choice Entries</h2>
         <form class="col-md-12">
             <ul class="list-group">
@@ -12,5 +12,8 @@
             </ul>
         </form>
         <button class="btn btn-warning" (click)="castVote()">Cast My Vote</button>
+    </div>
+    <div class="col-md-5" *ngIf="vote">
+        Thanks for playing, we've already recorded a vote for you!
     </div>
 </div>

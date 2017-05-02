@@ -14,6 +14,7 @@ export class PeoplesVoteComponent implements OnInit {
 
   entries: Entry[];
   selectedEntry: Entry;
+  vote: Vote;
 
   constructor(private peoplesService: PeoplesService) { }
 
@@ -36,6 +37,7 @@ export class PeoplesVoteComponent implements OnInit {
       entry: this.selectedEntry,
       when: date
     };
+    this.vote = vote;
     this.peoplesService.vote(vote);
   }
 }

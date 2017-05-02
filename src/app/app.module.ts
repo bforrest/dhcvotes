@@ -11,6 +11,7 @@ import { StyleResultsComponent } from './style/style-results/style-results.compo
 import { PeoplesResultsComponent } from './peoples/peoples-results/peoples-results.component';
 import { PeoplesVoteComponent } from './peoples/peoples-vote/peoples-vote.component';
 import { NovoteComponent } from './novote/novote.component';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 const appRoutes: Routes = [
   { path: 'entries', component: EntryListComponent },
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FlashMessagesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

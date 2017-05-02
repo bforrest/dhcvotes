@@ -129,6 +129,10 @@ app.get('/api/peoples/results', function(req, res) {
     })
 })
 
+app.get('/api/vote/:contest', function(req, res) {
+    // get user from cookie.
+})
+
 let castVote = function(vote, res) {
     db.collection(VOTES_COLLECTION).insertOne(vote, function(err, doc) {
         if (err) {

@@ -11,6 +11,6 @@
                 </li>
             </ul>
         </form>
-        <button class="btn btn-warning" (click)="castVote()">Cast My Vote</button>
+        <button *ngIf="!vote" class="btn btn-warning" (click)="castVote()">Cast My Vote</button>
     </div>
 </div>

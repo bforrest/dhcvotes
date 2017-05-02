@@ -21,10 +21,18 @@ export class StyleService {
   }
 
   vote(vote: Vote): Promise<Vote> {
+    vote.message = `You have voted for ${vote.entry.style}`;
     return this.http.post(this.serviceUrl, vote)
       .toPromise()
       .then(response => response.json() as Vote)
-      .catch(this.handleError);
+      .catch(err => {
+        if (err.status === 429) {
+          vote.message = `You have already voted for ${vote.entry.style}`;
+          return JSON.stringify(vote);
+        } else {
+          this.handleError(err);
+        }
+      });
   }
 
   results(): Promise<Result[]> {
