@@ -13,7 +13,7 @@
 
 <body>
     <script>
-        //426670954366965
+        // appId: 426670954366965
         window.fbAsyncInit = function() {
             FB.init({
                 appId: '426670954366965',
@@ -29,17 +29,17 @@
                     FB.api('/me', function(response) {
                         console.log('Good to see you, ' + response.name + '.');
                     });
-                } else {
-                    FB.login(function(response) {
-                        if (response.authResponse) {
-                            console.log('Welcome!  Fetching your information.... ');
-                            FB.api('/me', function(response) {
-                                console.log('Good to see you, ' + response.name + '.');
-                            });
-                        } else {
-                            console.log('User cancelled login or did not fully authorize.');
-                        }
-                    });
+                    // } else {
+                    //     FB.login(function(response) {
+                    //         if (response.authResponse) {
+                    //             console.log('Welcome!  Fetching your information.... ');
+                    //             FB.api('/me', function(response) {
+                    //                 console.log('Good to see you, ' + response.name + '.');
+                    //             });
+                    //         } else {
+                    //             console.log('User cancelled login or did not fully authorize.');
+                    //         }
+                    //     });
                 }
             });
         };
