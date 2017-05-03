@@ -13,7 +13,9 @@
         </form>
         <button class="btn btn-warning" (click)="castVote()">Cast My Vote</button>
     </div>
-    <div class="col-md-5" *ngIf="vote">
-        Thanks for playing, we've already recorded a vote for you!
+    <div class="col-md-5 no-vote" *ngIf="vote">
+        <div class="alert alert-success" role="alert">
+            <p>Thanks for playing, we've recorded your vote for {{vote.entry.style}}!</p>
+        </div>
     </div>
 </div>

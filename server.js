@@ -129,8 +129,26 @@ app.get('/api/peoples/results', function(req, res) {
     })
 })
 
-app.get('/api/vote/:contest', function(req, res) {
+app.get('/api/vote/style', function(req, res) {
     // get user from cookie.
+    var token = checkCookie(STYLE_COOKIE, req);
+
+    if (token !== null) {
+        return res.status(200).json(token);
+    }
+    return res.status(204);
+})
+
+app.get('/api/vote/peoples', function(req, res) {
+    // get user from cookie.
+    var token = checkCookie(PEOPLES_COOKIE, req);
+
+    if (token !== null) {
+        console.log(`peoples token: ${token}`)
+        return res.status(200).json(token.message);
+    }
+    console.log('no peoples token');
+    return res.status(204).json('');
 })
 
 let castVote = function(vote, res) {

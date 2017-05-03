@@ -10,6 +10,7 @@ export class StyleService {
 
   private serviceUrl = '/api/style';
   private resultUrl = '/api/style/results';
+  private voteUrl = '/api/vote/style';
 
   constructor(private http: Http) { }
 
@@ -40,6 +41,13 @@ export class StyleService {
       .toPromise()
       .then( response => response.json() as Result[])
       .catch( this.handleError);
+  }
+
+  getVote(): Promise<string> {
+    return this.http.get(this.voteUrl)
+    .toPromise()
+    .then( response => response.json() as string)
+    .catch( this.handleError);
   }
 
   private handleError (error: any) {

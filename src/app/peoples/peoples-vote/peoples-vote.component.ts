@@ -3,6 +3,7 @@ import { Entry } from '../../entries/entry';
 import { Vote } from '../../vote';
 
 import { PeoplesService } from 'app/peoples/peoples.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-peoples-vote',
@@ -16,7 +17,7 @@ export class PeoplesVoteComponent implements OnInit {
   selectedEntry: Entry;
   vote: Vote;
 
-  constructor(private peoplesService: PeoplesService) { }
+  constructor(private peoplesService: PeoplesService, private _flashMessagesService: FlashMessagesService) { }
 
   ngOnInit() {
      this.peoplesService.get()
@@ -39,5 +40,6 @@ export class PeoplesVoteComponent implements OnInit {
     };
     this.vote = vote;
     this.peoplesService.vote(vote);
+    this._flashMessagesService.show(`You have voted for ${vote.entry.style}!`, { cssClass: 'alert-success'});
   }
 }
