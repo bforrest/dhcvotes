@@ -21,3 +21,18 @@
     overflow-y: scroll;
     margin-bottom: 65px;
 }
+
+.navbar-header {
+    margin-right: 17px;
+}
+
+.container-fluid>.navbar-collapse,
+.container-fluid>.navbar-header,
+.container>.navbar-collapse,
+.container>.navbar-header {
+    margin-right: 32px;
+}
+
+.navbar-toggle {
+    margin-right: 42px;
+}
