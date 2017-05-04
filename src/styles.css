@@ -20,6 +20,7 @@
 .row {
     overflow-y: scroll;
     margin-bottom: 65px;
+    margin-top: 25px;
 }
 
 .navbar-header {
@@ -30,9 +31,9 @@
 .container-fluid>.navbar-header,
 .container>.navbar-collapse,
 .container>.navbar-header {
-    margin-right: 32px;
+    margin-right: 2px;
 }
 
 .navbar-toggle {
-    margin-right: 42px;
+    margin-right: 2px;
 }
