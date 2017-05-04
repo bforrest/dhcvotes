@@ -12,52 +12,6 @@
 </head>
 
 <body>
-    <script>
-        // appId: 426670954366965
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId: '426670954366965',
-                xfbml: true,
-                version: 'v2.9',
-                status: true
-            });
-            FB.AppEvents.logPageView();
-
-            FB.getLoginStatus(function(response) {
-                if (response.status === 'connected') {
-                    console.log('Logged in.');
-                    FB.api('/me', function(response) {
-                        console.log('Good to see you, ' + response.name + '.');
-                    });
-                    // } else {
-                    //     FB.login(function(response) {
-                    //         if (response.authResponse) {
-                    //             console.log('Welcome!  Fetching your information.... ');
-                    //             FB.api('/me', function(response) {
-                    //                 console.log('Good to see you, ' + response.name + '.');
-                    //             });
-                    //         } else {
-                    //             console.log('User cancelled login or did not fully authorize.');
-                    //         }
-                    //     });
-                }
-            });
-        };
-
-
-
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-
     <app-root>Loading...</app-root>
     <script src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
