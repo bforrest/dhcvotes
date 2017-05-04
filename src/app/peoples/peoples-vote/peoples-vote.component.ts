@@ -40,6 +40,6 @@ export class PeoplesVoteComponent implements OnInit {
     };
     this.vote = vote;
     this.peoplesService.vote(vote);
-    this._flashMessagesService.show(`You have voted for ${vote.entry.style}!`, { cssClass: 'alert-success'});
+    //this._flashMessagesService.show(`You have voted for ${vote.entry.style}!`, { cssClass: 'alert-success'});
   }
 }
