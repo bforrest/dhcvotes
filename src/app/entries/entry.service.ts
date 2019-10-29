@@ -33,7 +33,7 @@ export class EntryService {
 
   updateEntry(entry: Entry): Promise<Entry> {
     const putUrl = this.entryUrl + '/' + entry._id;
-    return this.http.post(putUrl, entry)
+    return this.http.put(putUrl, entry)
       .toPromise()
       .then(response => response.json() as Entry)
       .catch(this.handleError);
